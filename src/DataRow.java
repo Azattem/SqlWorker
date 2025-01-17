@@ -1,6 +1,6 @@
 public class DataRow {
-    int id = 0;
-    String text;
+    private int id = 0;
+    private final String text;
     public DataRow(int id,String string){
         this.id = id;
         text = string;
