@@ -7,4 +7,9 @@ public class AddDataBaseAction extends DataBaseAction{
     public String execute() {
         return "insert into test(info) value (\""+dataRow.getText()+"\");";
     }
+
+    @Override
+    public String toString() {
+        return "add "+dataRow.toString();
+    }
 }

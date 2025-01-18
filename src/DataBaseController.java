@@ -29,6 +29,11 @@ public class DataBaseController {
         }
         return tableContent.toString();
     }
+
+    public ArrayList<DataBaseAction> getActionList() {
+        return actionList;
+    }
+
     //Метод поочердно выполняет все созданые изменения
     public void executeActions() {
         Statement statement = createStatement();

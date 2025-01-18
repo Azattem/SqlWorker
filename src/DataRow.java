@@ -16,4 +16,9 @@ public class DataRow {
     public String getText() {
         return text;
     }
+
+    @Override
+    public String toString() {
+        return id+" "+text;
+    }
 }
