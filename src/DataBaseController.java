@@ -1,10 +1,11 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DataBaseController {
-    private Connection connection;
+    private Connection connection = null;
     private final String url;
     private final String login;
     private final String pass;
@@ -15,14 +16,36 @@ public class DataBaseController {
         this.login=login;
         this.pass=pass;
     }
-    public void executeActions(){
-    for (DataBaseAction action : actionList) {
-    action.execute();
+
+    public void executeActions() {
+        Statement statement = createStatement();
+        if (statement!=null) {
+            for (DataBaseAction action : actionList) {
+                try {
+                    statement.executeUpdate(action.execute());
+                } catch (SQLException e) {
+                System.out.println("Ошибка SQL запроса");
+                e.printStackTrace();
+                }
+            }
+            actionList.clear();
+        }else {
+        System.out.println("Statement пуст");
+        }
     }
+    private Statement createStatement() {
+        try {
+            return connection.createStatement();
+        } catch (SQLException e) {
+            System.out.println("Ошибка доступа к базе данных при создание Statement");
+            return null;
+        }
     }
+
     public void clear(){
     actionList = new ArrayList<>();
     }
+
     public void remove(int index){
     if(index>=0&&index<actionList.size()) {
     actionList.remove(index);
@@ -31,6 +54,7 @@ public class DataBaseController {
     public void remove(DataBaseAction action){
             actionList.remove(action);
     }
+
     public void add(DataBaseAction dataBaseAction){
         actionList.add(dataBaseAction);
     }
