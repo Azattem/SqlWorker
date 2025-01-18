@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DataBaseController {
@@ -16,7 +13,23 @@ public class DataBaseController {
         this.login=login;
         this.pass=pass;
     }
+    public String getTableData(){
+        Statement statement = createStatement();
+        StringBuilder tableContent = new StringBuilder();
+        try {
+        if (statement!=null) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM test");
+            while (resultSet.next()) {
+                tableContent.append(resultSet.getString("id")).append(" ").append(resultSet.getString("info")).append("\n");
+            }
 
+        }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return tableContent.toString();
+    }
+    //Метод поочердно выполняет все созданые изменения
     public void executeActions() {
         Statement statement = createStatement();
         if (statement!=null) {
@@ -33,6 +46,7 @@ public class DataBaseController {
         System.out.println("Statement пуст");
         }
     }
+
     private Statement createStatement() {
         try {
             return connection.createStatement();
